@@ -220,7 +220,6 @@ catch (PDOException $e){
             <?php }?>
             <?php  foreach($totaleLigne as $totale) {?>
                 <tr class="bottom_line">
-                  <?php  var_dump($totale);?>
                     <td><?php print $totale["libelle_continent"];?></td>
                     <td><?php print $totale["population"];?></td>
                     <td><?php print $totale["natalite"];?></td>
