@@ -10,6 +10,17 @@ catch (PDOException $e){
     $listeContinent = $_GET["continent_list"] ?? null;
     $regionListe = $_GET["region_list"] ?? null;
 
+
+        $totaleLigne = $dbh->prepare("SELECT libelle_continent, ROUND(SUM(population_pays),1) AS population, ROUND(AVG(taux_natalite_pays),1) AS natalite,
+        ROUND(AVG(taux_mortalite_pays),1) AS mortalite, ROUND(AVG(esperance_vie_pays),1) AS vie, ROUND(AVG(taux_mortalite_infantile_pays),1) AS infantile, 
+        ROUND(AVG(nombre_enfants_par_femme_pays),1) AS enfants, ROUND(AVG(taux_croissance_pays),1) AS croissance, 
+        ROUND(AVG((population_plus_65_pays *100) / population_pays),1) AS pop_65
+        FROM t_pays 
+        INNER JOIN t_continents ON t_pays.continent_id = t_continents.id_continent
+        INNER JOIN t_regions ON t_pays.region_id = t_regions.id_region
+        WHERE t_pays.continent_id=$listeContinent;");
+        $totaleLigne->execute();
+
     $monde = $dbh->prepare("SELECT *, ROUND(SUM(population_pays),1) AS population, 
     ROUND(taux_natalite_pays,1) AS natalite, ROUND(taux_mortalite_pays,1) AS mortalite, ROUND(esperance_vie_pays,1) AS vie,
     ROUND(taux_mortalite_infantile_pays,1) AS infantile, ROUND(nombre_enfants_par_femme_pays,1) AS enfants,
@@ -58,15 +69,7 @@ catch (PDOException $e){
             GROUP BY libelle_pays;
            ");
         $afficherPays->execute();
-        $totaleLigne = $dbh->prepare("SELECT libelle_continent, ROUND(SUM(population_pays),1) AS population, ROUND(AVG(taux_natalite_pays),1) AS natalite,
-        ROUND(AVG(taux_mortalite_pays),1) AS mortalite, ROUND(AVG(esperance_vie_pays),1) AS vie, ROUND(AVG(taux_mortalite_infantile_pays),1) AS infantile, 
-        ROUND(AVG(nombre_enfants_par_femme_pays),1) AS enfants, ROUND(AVG(taux_croissance_pays),1) AS croissance, 
-        ROUND(AVG((population_plus_65_pays *100) / population_pays),1) AS pop_65
-        FROM t_pays 
-        INNER JOIN t_continents ON t_pays.continent_id = t_continents.id_continent
-        INNER JOIN t_regions ON t_pays.region_id = t_regions.id_region
-        WHERE t_pays.continent_id=$listeContinent;");
-        $totaleLigne->execute();
+
 
     }
     else{
@@ -87,7 +90,7 @@ catch (PDOException $e){
             GROUP BY zone_affichee;
            ");
         $afficherPays->execute();
-          $totaleLigne = $dbh->prepare("SELECT *, ROUND(SUM(population_pays),1) AS population, ROUND(AVG(taux_natalite_pays),1) AS natalite,
+         /* $totaleLigne = $dbh->prepare("SELECT *, ROUND(SUM(population_pays),1) AS population, ROUND(AVG(taux_natalite_pays),1) AS natalite,
             ROUND(AVG(taux_mortalite_pays),1) AS mortalite, ROUND(AVG(esperance_vie_pays),1) AS vie, ROUND(AVG(taux_mortalite_infantile_pays),1) AS infantile, 
             ROUND(AVG(nombre_enfants_par_femme_pays),1) AS enfants, ROUND(AVG(taux_croissance_pays),1) AS croissance, 
             ROUND(AVG((population_plus_65_pays *100) / population_pays),1) AS pop_65
@@ -95,7 +98,7 @@ catch (PDOException $e){
             INNER JOIN t_continents ON t_pays.continent_id = t_continents.id_continent
             INNER JOIN t_regions ON t_pays.region_id = t_regions.id_region
             WHERE t_pays.continent_id=7;");
-            $totaleLigne->execute();
+            $totaleLigne->execute();*/
         }
 
     } 
@@ -217,8 +220,9 @@ catch (PDOException $e){
                     <td><?php print $pays["croissance"];?></td>
                     <td><?php print $pays["pop_65"];?></td>
                 </tr>
-            <?php }?>
-            <?php  foreach($totaleLigne as $totale) {?>
+              
+            <?php } ?>
+        <?php  foreach($totaleLigne as $totale) {?>
                 <tr class="bottom_line">
                     <td><?php print $totale["libelle_continent"];?></td>
                     <td><?php print $totale["population"];?></td>
@@ -231,6 +235,7 @@ catch (PDOException $e){
                     <td><?php print $totale["pop_65"];?></td>
                 </tr>
             <?php } }?>
+        
         </tbody>
     </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
