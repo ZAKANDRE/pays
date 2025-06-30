@@ -1,0 +1,87 @@
+*{
+    margin: 0;
+}
+
+body{
+    background-color: #f5f5f5;
+}
+
+#continent_list, #region_list{
+    width: 50%;
+    height: 25px;
+    font-size: 14px;
+    padding-top: 1px;
+    padding-bottom: 0;
+    padding-left: 7px;
+    text-transform: uppercase;
+}
+#region_list{
+    margin-left: 25px;
+}
+#continent_list{
+    margin-right: 3%;
+}
+#form{
+    display: grid;
+    grid-template-columns: 22% 20%;
+    justify-items: baseline;
+    justify-self: center;
+    width: 75%;
+    background: #fff;
+    padding: 19px;
+    border-radius: 5px;
+    margin: 25px 0;
+}
+#form .form-select {
+    background-color: #f5f5f5;
+    background-image: url(img/plus.svg);
+    background-position: right;
+    background-size: 30px 30px;
+    border-radius: 3px;
+    width: 100%;
+    cursor: pointer;
+}
+#form p{
+    display: block;
+    width: 100%;
+    margin: 0;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+#title_continent{
+    width: 75%;
+    margin: 20px auto;
+}
+#title_continent span {
+        color: #1cbdc7;
+}
+#table{
+    width: 75%;
+    margin: 0 auto;
+    border: 1px solid #e0dfe1;
+    border-left: 1px solid white;
+    border-collapse: separate !important;
+}
+.table-striped>tbody>tr:nth-of-type(odd)>*{
+    background-color: #bbebee;
+}
+.table>:not(caption)>*>*{
+    background-color: #e8f8f9;
+}
+#table thead tr th {
+    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+}
+#table tbody tr.bottom_line td{
+    background: #1cbdc7;
+    color: #fff;
+    font-weight: bold;
+}
+#table tr td, #table tr th {
+    border-left: 1px solid #e1e0e2; 
+    color: #4e5762;
+    font-size: 12px;
+    text-align: center;
+}
